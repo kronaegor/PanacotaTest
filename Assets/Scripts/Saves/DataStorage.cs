@@ -15,7 +15,7 @@ public class DataStorage : MonoBehaviour
         if (!File.Exists(_path))
         {
             FileInfo file = new(_path);
-            file.Create();
+            file.Create().Dispose();
             OnSavesEmpty?.Invoke();
             return;
         }
