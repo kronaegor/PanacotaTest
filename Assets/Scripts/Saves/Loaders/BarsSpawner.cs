@@ -22,6 +22,6 @@ public class BarsSpawner : MonoBehaviour
         bar.Timer.TimeTeEarnCoin = data.Timer;
         bar.Upgrader.MoneyToUpgrade = data.UpgradePrice;
         bar.Level.Level = data.Level;
-        bar.MoneyFolder.Money =_calculathions.CalculateMoney(bar.MoneyFolder.Money, bar.MoneyFolder.MaxAmountOfMoney, bar.Timer.TimeTeEarnCoin);
+        bar.MoneyFolder.Money =_calculathions.CalculateMoney(data.Money, bar.MoneyFolder.MaxAmountOfMoney, bar.Timer.TimeTeEarnCoin);
     }
 }

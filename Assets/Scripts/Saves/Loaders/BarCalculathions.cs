@@ -13,10 +13,7 @@ public class BarCalculathions : MonoBehaviour
     {
         _currentTime = TimeSpan.FromTicks(DateTime.Now.Ticks).TotalSeconds;
         _leaveTimeSeconds = _dataStorage.LoadInormathion<TimeData>("Time").Time;
-
-
         _timeOutOfGame = _currentTime - _leaveTimeSeconds;
-        Debug.Log(((int)_timeOutOfGame / (int)timeToEarn));
         _moneyToGet = money + ((int)_timeOutOfGame / (int)timeToEarn);
         if (_moneyToGet > maxAmountOfMoney)
             _moneyToGet = maxAmountOfMoney;

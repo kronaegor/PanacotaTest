@@ -15,7 +15,7 @@ public class DataStorage : MonoBehaviour
         if (!File.Exists(_path))
         {
             FileInfo file = new(_path);
-            file.Create();
+            file.Create().Dispose();
             OnSavesEmpty?.Invoke();
             return;
         }
@@ -24,11 +24,16 @@ public class DataStorage : MonoBehaviour
             OnSavesEmpty?.Invoke();
             return;
         }
-        _data = JsonUtility.FromJson<SerializedDictionary<string, string>>(File.ReadAllText(_path));
+        using (var streamReader = new StreamReader(_path))
+        {
+            _data = JsonUtility.FromJson<SerializedDictionary<string, string>>(streamReader.ReadLine());
+        }
+        
         OnGameLoading?.Invoke();
     }
     private void CollectInformathion(string key, string value)
     {
+        _path = Path.Combine(Application.persistentDataPath, "SavePlayerData.txt");
         if (_data.ContainsKey(key) != true)
         {
             _data.Add(key, value);
@@ -37,8 +42,10 @@ public class DataStorage : MonoBehaviour
         {
             _data[key] = value;
         }
-        File.WriteAllText(_path, string.Empty);
-        File.WriteAllText(_path, JsonUtility.ToJson(_data));
+        using (var streamWriter = new StreamWriter(_path, false))
+        {
+            streamWriter.Write(JsonUtility.ToJson(_data));
+        }
     }
     public void SaveInfo(object data, string key)
     {
